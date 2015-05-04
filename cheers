@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+require 'date'
+	true
 
 def exit_with_usage_instructions
   puts <<EOS
@@ -8,7 +10,22 @@ EOS
   exit
 end
 
+
 exit_with_usage_instructions() if ARGV.empty?
+
+if ARGV.length == 1
+  original_name = ARGV[0]
+  birthday = ""
+else
+  original_name = ARGV[0]
+  birthday = ARGV[1]
+  begin
+    Date.parse(birthday)
+  rescue
+    exit_with_help_message
+  end
+end
+
 
 
 original_name = ARGV[0]
@@ -23,14 +40,16 @@ cheerable_name.each_char do |char|
 end
 puts "#{original_name}'s just GRAND!"
 puts ""
-puts "I would wish you a Happy Birthday, if I knew when that was!"
-
-
-
-
-	# if birthday != ''
-		# puts "Awesome!  Your birthday is in 45 days! Happy Birthday in advance!"
-	# else
-		# puts "I would wish you a Happy Birthday, if I knew when that was!"
-	# end
+if birthday == ""
+	puts 'I would wish you a Happy Birthday, if I knew when that was!'
+else
+	days_until = Date.parse(birthday) - Date.today
+  if days_until == 0
+    puts "Awesome!  Your birthday is today! Happy Birthday!"
+  elsif days_until == 1
+    puts "Awesome!  Your birthday is in #{days_until} day! Happy Birthday in advance!"
+  else
+    puts "Awesome!  Your birthday is in #{days_until.to_i} days! Happy Birthday in advance!"
+  end
+end
 
